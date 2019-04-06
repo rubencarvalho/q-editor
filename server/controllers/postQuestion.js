@@ -1,5 +1,9 @@
 const Question = require('../models/db.js')
 const postQuestion = (req, res) => {
-  res.status(200).send('PostQuestion')
+  Question.create(req.body)
+    .then(question => {
+      res.status(201).json(question)
+    })
+    .catch(err => res.status(500).json(err))
 }
 module.exports = postQuestion

@@ -5,8 +5,14 @@ const cors = require('cors')
 const router = require('./router')
 const mongoose = require('mongoose')
 
+//Avoid deprecation warnings
+mongoose.set('useFindAndModify', false)
+
 // Allow CORS
 app.use(cors())
+
+// Middleware
+app.use(express.json())
 app.use(router)
 
 // DB & Server connection
