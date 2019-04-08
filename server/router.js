@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const controller = require('./controllers/controllers.js')
-const Question = require('./models/db.js')
 
 //CRUD operations
 router.get('/questions', controller.getAllQuestions)
