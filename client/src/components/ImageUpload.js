@@ -20,7 +20,6 @@ export default class ImageUpload extends Component {
   state = {
     imageURL: '',
   }
-
   uploadImage(e) {
     const imageFormObj = new FormData()
 
@@ -43,6 +42,8 @@ export default class ImageUpload extends Component {
   }
 
   render() {
+    const { id } = this.props
+
     return (
       <React.Fragment>
         <AddImage
@@ -51,12 +52,12 @@ export default class ImageUpload extends Component {
               ? { backgroundImage: `url('${this.state.imageURL}')` }
               : null
           }
-          htmlFor="image"
+          htmlFor={`image${id}`}
         >
-          +
+          {this.state.imageURL === '' ? '+' : null}
         </AddImage>
         <input
-          id="image"
+          id={`image${id}`}
           style={{ display: 'none' }}
           name="image"
           type="file"

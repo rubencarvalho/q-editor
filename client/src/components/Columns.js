@@ -42,11 +42,12 @@ const DeleteButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  width: 24px;
-  margin-bottom: 8px;
+  height: 20px;
+  width: 20px;
   outline: none;
   opacity: 0;
+  margin: 8px 0 4px 0;
+  border-radius: 50%;
   transition: opacity 0.1s linear;
   transition-property: opacity;
   transition-duration: 0.1s;
@@ -105,7 +106,7 @@ export default class Columns extends Component {
             >
               x
             </DeleteButton>
-            <ImageUpload>+</ImageUpload>
+            <ImageUpload id={column.id}>+</ImageUpload>
             <Label
               value={column.label}
               onChange={e => onLabelChangeHandler(e, column)}
