@@ -1,6 +1,20 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { API_URL } from '../config'
+import styled from 'styled-components'
+
+const AddImage = styled.label`
+  display: flex;
+  background-image: linear-gradient(to bottom, #e4e4e4, #f7f7f7);
+  border: 1px solid #afafaf;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  outline: none;
+  height: 40px;
+  width: 40px;
+  background-size: cover;
+`
 
 export default class ImageUpload extends Component {
   state = {
@@ -30,7 +44,25 @@ export default class ImageUpload extends Component {
 
   render() {
     return (
-      <input name="image" type="file" onChange={e => this.uploadImage(e)} />
+      <React.Fragment>
+        <AddImage
+          style={
+            this.state.imageURL !== ''
+              ? { backgroundImage: `url('${this.state.imageURL}')` }
+              : null
+          }
+          htmlFor="image"
+        >
+          +
+        </AddImage>
+        <input
+          id="image"
+          style={{ display: 'none' }}
+          name="image"
+          type="file"
+          onChange={e => this.uploadImage(e)}
+        />
+      </React.Fragment>
     )
   }
 }

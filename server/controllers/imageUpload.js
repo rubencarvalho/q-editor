@@ -35,10 +35,9 @@ const uploadImage = (req, res) => {
     .join('-')
     .slice(req.file.path.indexOf('/images') + 1)
 
-  fs.rename(req.file.path, imageData, err => {
+  fs.rename(req.file.path, req.file.path.split(' ').join('-'), err => {
     if (err) console.log('ERROR: ' + err)
   })
-  console.log(imageData)
   const newImage = new Image({
     questionID: req.params.id,
     imageName: req.body.imageName,

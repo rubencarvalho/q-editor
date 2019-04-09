@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-
+import ImageUpload from './ImageUpload'
 const ColumnGrid = styled.div`
   width: 100%;
   height: 100%;
@@ -27,18 +27,6 @@ const ColumnContainer = styled.div`
   }
 `
 
-const AddImage = styled.button`
-  background: #eee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2em;
-  outline: none;
-  height: 40px;
-  width: 40px;
-  background-color: rgba(0, 0, 0, 0.02);
-  transition: background-color 0.1s;
-`
 const Label = styled.input`
   display: block;
   border: none;
@@ -117,7 +105,7 @@ export default class Columns extends Component {
             >
               x
             </DeleteButton>
-            <AddImage>+</AddImage>
+            <ImageUpload>+</ImageUpload>
             <Label
               value={column.label}
               onChange={e => onLabelChangeHandler(e, column)}
