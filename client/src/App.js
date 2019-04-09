@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import Title from './components/Title'
 import ColumnsHeader from './components/ColumnsHeader'
+import uid from 'uid'
 
 const Container = styled.div`
   display: flex;
@@ -12,22 +13,38 @@ const Container = styled.div`
   width: 100%;
   position: absolute;
 `
-const ColumnGrid = styled.div`
-  width: 50%;
-  display: grid;
-  grid-template-columns: ${p => 'repeat(' + p.length + ', 40px)'};
-  height: 40px;
-`
 
 export default class App extends Component {
   state = {
-    columns: [1, 2, 3, 4],
+    columns: [],
     rows: [],
     title: 'Example Question',
   }
 
   onTitleChangeHandler = event => {
     this.setState({ ...this.state, title: event.target.value })
+  }
+
+  addColumnHandler = () => {
+    const length = this.state.columns.length
+    this.setState({
+      ...this.state,
+      columns: [
+        ...this.state.columns,
+        { label: `col${length}`, image: '', id: uid() },
+      ],
+    })
+  }
+
+  deleteColumnHandler = column => {
+    const index = this.state.columns.indexOf(column)
+    this.setState({
+      ...this.state,
+      columns: [
+        ...this.state.columns.slice(0, index),
+        ...this.state.columns.slice(index + 1),
+      ],
+    })
   }
 
   render() {
@@ -38,11 +55,11 @@ export default class App extends Component {
             title={this.state.title}
             onChangeHandler={this.onTitleChangeHandler}
           />
-          <ColumnGrid length={this.state.columns.length + 1}>
-            {this.state.columns.map(() => (
-              <div>+</div>
-            ))}
-          </ColumnGrid>
+          <ColumnsHeader
+            addColumnHandler={this.addColumnHandler}
+            deleteColumnHandler={this.deleteColumnHandler}
+            columns={this.state.columns}
+          />
         </Container>
       </React.Fragment>
     )
