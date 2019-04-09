@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import Title from './components/Title'
-import ColumnsHeader from './components/ColumnsHeader'
+import Columns from './components/Columns'
 import uid from 'uid'
 
 const Container = styled.div`
@@ -26,8 +26,8 @@ export default class App extends Component {
     title: '',
   }
 
-  onTitleChangeHandler = event => {
-    this.setState({ ...this.state, title: event.target.value })
+  onTitleChangeHandler = e => {
+    this.setState({ ...this.state, title: e.target.value })
   }
 
   addColumnHandler = () => {
@@ -51,13 +51,13 @@ export default class App extends Component {
       ],
     })
   }
-  onLabelChangeHandler = (event, column) => {
+  onLabelChangeHandler = (e, column) => {
     const index = this.state.columns.indexOf(column)
     this.setState({
       ...this.state,
       columns: [
         ...this.state.columns.slice(0, index),
-        { ...this.state.columns[index], label: event.target.value },
+        { ...this.state.columns[index], label: e.target.value },
         ...this.state.columns.slice(index + 1),
       ],
     })
@@ -70,7 +70,7 @@ export default class App extends Component {
             title={this.state.title}
             onChangeHandler={this.onTitleChangeHandler}
           />
-          <ColumnsHeader
+          <Columns
             addColumnHandler={this.addColumnHandler}
             deleteColumnHandler={this.deleteColumnHandler}
             onLabelChangeHandler={this.onLabelChangeHandler}

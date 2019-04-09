@@ -86,7 +86,7 @@ const NoColumnsText = styled.div`
   color: grey;
 `
 
-export default class ColumnsHeader extends Component {
+export default class Columns extends Component {
   render() {
     const {
       addColumnHandler,
@@ -120,7 +120,7 @@ export default class ColumnsHeader extends Component {
             <AddImage>+</AddImage>
             <Label
               value={column.label}
-              onChange={event => onLabelChangeHandler(event, column)}
+              onChange={e => onLabelChangeHandler(e, column)}
               placeholder={column.label}
             />
           </ColumnContainer>

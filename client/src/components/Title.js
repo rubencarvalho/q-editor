@@ -16,7 +16,7 @@ export default function Title({ title, onChangeHandler }) {
       name="title"
       value={title}
       placeholder="Title of the question"
-      onChange={event => onChangeHandler(event)}
+      onChange={e => onChangeHandler(e)}
     />
   )
 }
