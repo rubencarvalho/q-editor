@@ -46,7 +46,17 @@ export default class App extends Component {
       ],
     })
   }
-
+  onLabelChangeHandler = (event, column) => {
+    const index = this.state.columns.indexOf(column)
+    this.setState({
+      ...this.state,
+      columns: [
+        ...this.state.columns.slice(0, index),
+        { ...this.state.columns[index], label: event.target.value },
+        ...this.state.columns.slice(index + 1),
+      ],
+    })
+  }
   render() {
     return (
       <React.Fragment>
@@ -58,6 +68,7 @@ export default class App extends Component {
           <ColumnsHeader
             addColumnHandler={this.addColumnHandler}
             deleteColumnHandler={this.deleteColumnHandler}
+            onLabelChangeHandler={this.onLabelChangeHandler}
             columns={this.state.columns}
           />
         </Container>

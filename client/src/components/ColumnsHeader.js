@@ -35,11 +35,8 @@ const AddImage = styled.button`
   outline: none;
   height: 40px;
   width: 40px;
-  border-radius: 50%;
-  
-    background-color: rgba(0, 0, 0, 0.02);
-    transition: background-color 0.1s;
-  }
+  background-color: rgba(0, 0, 0, 0.02);
+  transition: background-color 0.1s;
 `
 const Label = styled.input`
   display: block;
@@ -50,6 +47,7 @@ const Label = styled.input`
   font-style: italic;
   height: 32px;
   text-align: center;
+  font-size: 14px;
 `
 const DeleteButton = styled.button`
   display: flex;
@@ -57,7 +55,6 @@ const DeleteButton = styled.button`
   justify-content: center;
   height: 24px;
   width: 24px;
-  border-radius: 50%;
   margin-bottom: 8px;
   outline: none;
   opacity: 0;
@@ -77,14 +74,17 @@ const AddColumn = styled.button`
   font-size: 1.2em;
   outline: none;
   color: green;
-  border-radius: 50%;
   height: 40px;
   width: 40px;
 `
 
 export default class ColumnsHeader extends Component {
   render() {
-    const { addColumnHandler, deleteColumnHandler } = this.props
+    const {
+      addColumnHandler,
+      deleteColumnHandler,
+      onLabelChangeHandler,
+    } = this.props
 
     function Loading() {
       return <div>Loading</div>
@@ -101,7 +101,11 @@ export default class ColumnsHeader extends Component {
               x
             </DeleteButton>
             <AddImage>+</AddImage>
-            <Label placeholder={`col${index}`} />
+            <Label
+              value={column.label}
+              onChange={event => onLabelChangeHandler(event, column)}
+              placeholder={column.label}
+            />
           </ColumnContainer>
         ))}
         <AddColumn onClick={() => addColumnHandler()}>+</AddColumn>
