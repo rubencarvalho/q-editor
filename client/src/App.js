@@ -7,18 +7,23 @@ import uid from 'uid'
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  padding: 50px;
   height: 100%;
   width: 100%;
   position: absolute;
+`
+
+const GridWrapper = styled.div`
+  display: grid;
+  gap: 20px;
+  grid-template-rows: 50px 100px 1fr;
 `
 
 export default class App extends Component {
   state = {
     columns: [],
     rows: [],
-    title: 'Example Question',
+    title: '',
   }
 
   onTitleChangeHandler = event => {
@@ -59,8 +64,8 @@ export default class App extends Component {
   }
   render() {
     return (
-      <React.Fragment>
-        <Container>
+      <Container>
+        <GridWrapper>
           <Title
             title={this.state.title}
             onChangeHandler={this.onTitleChangeHandler}
@@ -71,8 +76,8 @@ export default class App extends Component {
             onLabelChangeHandler={this.onLabelChangeHandler}
             columns={this.state.columns}
           />
-        </Container>
-      </React.Fragment>
+        </GridWrapper>
+      </Container>
     )
   }
 }

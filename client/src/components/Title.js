@@ -9,14 +9,13 @@ const StyledInput = styled.input`
   outline: none;
   width: 300px;
   font-style: italic;
-  margin-bottom: 40px;
 `
 export default function Title({ title, onChangeHandler }) {
   return (
     <StyledInput
       name="title"
       value={title}
-      placeholder="Enter your question title"
+      placeholder="Title of the question"
       onChange={event => onChangeHandler(event)}
     />
   )

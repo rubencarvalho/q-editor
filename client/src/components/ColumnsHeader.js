@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 const ColumnGrid = styled.div`
-  width: 50%;
+  width: 100%;
+  height: 100%;
   display: grid;
-  grid-template-columns: 60px ${p => 'repeat(' + p.length + ', 40px)'};
-  height: 130px;
   gap: 20px;
+  grid-template-columns: 100px ${p => 'repeat(' + p.length + ', 40px)'};
+  position: relative;
 `
 
 const ColumnContainer = styled.div`
@@ -78,19 +79,35 @@ const AddColumn = styled.button`
   width: 40px;
 `
 
+const NoColumnsText = styled.div`
+  position: absolute;
+  left: 180px;
+  top: 42px;
+  color: grey;
+`
+
 export default class ColumnsHeader extends Component {
   render() {
     const {
       addColumnHandler,
       deleteColumnHandler,
       onLabelChangeHandler,
+      columns,
     } = this.props
 
     function Loading() {
-      return <div>Loading</div>
+      return <div />
+    }
+
+    function EmptyScreen() {
+      if (columns.length === 0) {
+        return <NoColumnsText>Click + to add a new column</NoColumnsText>
+      } else {
+        return null
+      }
     }
     return (
-      <ColumnGrid length={this.props.columns.length + 2}>
+      <ColumnGrid length={columns.length + 1}>
         <Loading />
         {this.props.columns.map((column, index) => (
           <ColumnContainer key={column.id}>
@@ -109,6 +126,7 @@ export default class ColumnsHeader extends Component {
           </ColumnContainer>
         ))}
         <AddColumn onClick={() => addColumnHandler()}>+</AddColumn>
+        <EmptyScreen />
       </ColumnGrid>
     )
   }
