@@ -7,13 +7,13 @@ const mongoose = require('mongoose')
 
 //Avoid deprecation warnings
 mongoose.set('useFindAndModify', false)
-
 // Allow CORS
 app.use(cors())
 
 // Middleware
 app.use(express.json())
 app.use(router)
+app.use(express.static('public'))
 
 // DB & Server connection
 mongoose.connect('mongodb://localhost:27017/q-editor', {

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Title from './components/Title'
 import Columns from './components/Columns'
 import uid from 'uid'
-
+import ImageUpload from './components/ImageUpload'
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -65,6 +65,7 @@ export default class App extends Component {
   render() {
     return (
       <Container>
+        <ImageUpload />
         <GridWrapper>
           <Title
             title={this.state.title}

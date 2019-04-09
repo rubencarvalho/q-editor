@@ -4,33 +4,33 @@ import { API_URL } from '../config'
 
 export default class ImageUpload extends Component {
   state = {
-    image: '',
+    imageURL: '',
   }
+
   uploadImage(e) {
-    let imageFormObj = new FormData()
+    const imageFormObj = new FormData()
 
-    imageFormObj.append('imageName', 'image-' + Date.now())
-    imageFormObj.append('imageData', e.target.files[0])
-
-    // stores a readable instance of
-    // the image being uploaded using multer
-    this.setState({
-      image: URL.createObjectURL(e.target.files[0]),
-    })
+    imageFormObj.append('image', e.target.files[0])
 
     axios
-      .post(`${API_URL}/upload`, imageFormObj)
-      .then(data => {
-        if (data.data.success) {
-          this.setDefaultImage('multer')
+      .post(`${API_URL}/question/5ca7f7c47197e315951bec92/upload`, imageFormObj)
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({
+            imageURL: `${API_URL}/${res.data.result.imageData}`,
+          })
+          console.log('it worked!', this.state)
         }
       })
       .catch(err => {
-        alert('Error while uploading image using multer')
-        this.setDefaultImage('multer')
+        console.log(err)
+        alert('Error while uploading image. Please try again.')
       })
   }
+
   render() {
-    return <input type="file" onChange={e => this.uploadImage(e)} />
+    return (
+      <input name="image" type="file" onChange={e => this.uploadImage(e)} />
+    )
   }
 }

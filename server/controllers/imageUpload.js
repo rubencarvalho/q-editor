@@ -1,5 +1,6 @@
 const Image = require('../models/image.js')
 const multer = require('multer')
+const fs = require('fs')
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -28,7 +29,16 @@ const upload = multer({
 })
 
 const uploadImage = (req, res) => {
-  const imageData = req.file.path.split(' ').join('-')
+  //Ensure there are no spaces in the name and that the '/public' folder is not included
+  let imageData = req.file.path
+    .split(' ')
+    .join('-')
+    .slice(req.file.path.indexOf('/images') + 1)
+
+  fs.rename(req.file.path, imageData, err => {
+    if (err) console.log('ERROR: ' + err)
+  })
+  console.log(imageData)
   const newImage = new Image({
     questionID: req.params.id,
     imageName: req.body.imageName,
@@ -38,11 +48,7 @@ const uploadImage = (req, res) => {
   newImage
     .save()
     .then(result => {
-      console.log(result)
-      res.status(200).json({
-        success: true,
-        document: result,
-      })
+      res.status(200).json({ result })
     })
     .catch(err => next(err))
 }
