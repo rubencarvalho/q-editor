@@ -6,7 +6,7 @@ const ColumnGrid = styled.div`
   height: 100%;
   display: grid;
   gap: 20px;
-  grid-template-columns: 100px ${p => 'repeat(' + p.length + ', 40px)'};
+  grid-template-columns: 110px ${p => 'repeat(' + p.length + ', 40px)'};
   position: relative;
 `
 
@@ -34,7 +34,7 @@ const Label = styled.input`
   width: 40px;
   overflow: scroll;
   font-style: italic;
-  height: 32px;
+  height: 30px;
   text-align: center;
   font-size: 14px;
 `
@@ -46,7 +46,7 @@ const DeleteButton = styled.button`
   width: 20px;
   outline: none;
   opacity: 0;
-  margin: 8px 0 4px 0;
+  margin: 6px 0 4px 0;
   border-radius: 50%;
   transition: opacity 0.1s linear;
   transition-property: opacity;
@@ -90,7 +90,7 @@ export default class Columns extends Component {
 
     function EmptyScreen() {
       if (columns.length === 0) {
-        return <NoColumnsText>Click + to add a new column</NoColumnsText>
+        return <NoColumnsText>Click to add a new column</NoColumnsText>
       } else {
         return null
       }
@@ -109,8 +109,8 @@ export default class Columns extends Component {
             <ImageUpload id={column.id}>+</ImageUpload>
             <Label
               value={column.label}
-              onChange={e => onLabelChangeHandler(e, column)}
-              placeholder={column.label}
+              onChange={e => onLabelChangeHandler(e, column, 'column')}
+              placeholder={`col${index}`}
             />
           </ColumnContainer>
         ))}

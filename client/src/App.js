@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import Title from './components/Title'
 import Columns from './components/Columns'
+import Rows from './components/Rows'
 import uid from 'uid'
 const Container = styled.div`
   display: flex;
@@ -40,6 +41,28 @@ export default class App extends Component {
     })
   }
 
+  addRowHandler = () => {
+    const length = this.state.rows.length
+    this.setState({
+      ...this.state,
+      rows: [
+        ...this.state.rows,
+        { label: `row${length}`, image: '', id: uid() },
+      ],
+    })
+  }
+
+  deleteRowHandler = row => {
+    const index = this.state.rows.indexOf(row)
+    this.setState({
+      ...this.state,
+      rows: [
+        ...this.state.rows.slice(0, index),
+        ...this.state.rows.slice(index + 1),
+      ],
+    })
+  }
+
   deleteColumnHandler = column => {
     const index = this.state.columns.indexOf(column)
     this.setState({
@@ -50,17 +73,33 @@ export default class App extends Component {
       ],
     })
   }
-  onLabelChangeHandler = (e, column) => {
-    const index = this.state.columns.indexOf(column)
-    this.setState({
-      ...this.state,
-      columns: [
-        ...this.state.columns.slice(0, index),
-        { ...this.state.columns[index], label: e.target.value },
-        ...this.state.columns.slice(index + 1),
-      ],
-    })
+  onLabelChangeHandler = (e, item, columnOrRow) => {
+    if (columnOrRow === 'column') {
+      console.log('column change handler', this.state)
+      const index = this.state.columns.indexOf(item)
+      this.setState({
+        ...this.state,
+        columns: [
+          ...this.state.columns.slice(0, index),
+          { ...this.state.columns[index], label: e.target.value },
+          ...this.state.columns.slice(index + 1),
+        ],
+      })
+    } else if (columnOrRow === 'row') {
+      console.log('row change handler', this.state)
+      const index = this.state.rows.indexOf(item)
+      this.setState({
+        ...this.state,
+        rows: [
+          ...this.state.rows.slice(0, index),
+          { ...this.state.rows[index], label: e.target.value },
+          ...this.state.rows.slice(index + 1),
+        ],
+      })
+    }
   }
+
+  inputChangeHandler() {}
   render() {
     return (
       <Container>
@@ -74,6 +113,14 @@ export default class App extends Component {
             deleteColumnHandler={this.deleteColumnHandler}
             onLabelChangeHandler={this.onLabelChangeHandler}
             columns={this.state.columns}
+          />
+          <Rows
+            columns={this.state.columns}
+            addRowHandler={this.addRowHandler}
+            deleteRowHandler={this.deleteRowHandler}
+            onLabelChangeHandler={this.onLabelChangeHandler}
+            rows={this.state.rows}
+            inputChangeHandler={this.inputChangeHandler}
           />
         </GridWrapper>
       </Container>
