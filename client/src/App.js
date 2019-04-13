@@ -47,7 +47,7 @@ export default class App extends Component {
       ...this.state,
       rows: [
         ...this.state.rows,
-        { label: `row${length}`, image: '', id: uid() },
+        { label: `row${length}`, image: '', id: uid(), selected: '' },
       ],
     })
   }
@@ -65,17 +65,24 @@ export default class App extends Component {
 
   deleteColumnHandler = column => {
     const index = this.state.columns.indexOf(column)
-    this.setState({
-      ...this.state,
-      columns: [
-        ...this.state.columns.slice(0, index),
-        ...this.state.columns.slice(index + 1),
-      ],
-    })
+    this.setState(
+      {
+        ...this.state,
+        columns: [
+          ...this.state.columns.slice(0, index),
+          ...this.state.columns.slice(index + 1),
+        ],
+      },
+      this.state.rows.forEach(row => {
+        if (row.selected === index) {
+          console.log('should work?', row)
+          this.inputChangeHandler(row, -1)
+        }
+      })
+    )
   }
   onLabelChangeHandler = (e, item, columnOrRow) => {
     if (columnOrRow === 'column') {
-      console.log('column change handler', this.state)
       const index = this.state.columns.indexOf(item)
       this.setState({
         ...this.state,
@@ -86,7 +93,6 @@ export default class App extends Component {
         ],
       })
     } else if (columnOrRow === 'row') {
-      console.log('row change handler', this.state)
       const index = this.state.rows.indexOf(item)
       this.setState({
         ...this.state,
@@ -99,7 +105,18 @@ export default class App extends Component {
     }
   }
 
-  inputChangeHandler() {}
+  inputChangeHandler = (row, selected) => {
+    const index = this.state.rows.indexOf(row)
+    this.setState({
+      ...this.state,
+      rows: [
+        ...this.state.rows.slice(0, index),
+        { ...this.state.rows[index], selected },
+        ...this.state.rows.slice(index + 1),
+      ],
+    })
+  }
+
   render() {
     return (
       <Container>

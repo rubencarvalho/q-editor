@@ -98,22 +98,23 @@ export default class Columns extends Component {
     return (
       <ColumnGrid length={columns.length + 1}>
         <Loading />
-        {this.props.columns.map((column, index) => (
-          <ColumnContainer key={column.id}>
-            <DeleteButton
-              className={'hidden-delete'}
-              onClick={() => deleteColumnHandler(column)}
-            >
-              x
-            </DeleteButton>
-            <ImageUpload id={column.id}>+</ImageUpload>
-            <Label
-              value={column.label}
-              onChange={e => onLabelChangeHandler(e, column, 'column')}
-              placeholder={`col${index}`}
-            />
-          </ColumnContainer>
-        ))}
+        {columns &&
+          columns.map((column, index) => (
+            <ColumnContainer key={column.id}>
+              <DeleteButton
+                className={'hidden-delete'}
+                onClick={() => deleteColumnHandler(column)}
+              >
+                x
+              </DeleteButton>
+              <ImageUpload id={column.id}>+</ImageUpload>
+              <Label
+                value={column.label}
+                onChange={e => onLabelChangeHandler(e, column, 'column')}
+                placeholder={`col${index}`}
+              />
+            </ColumnContainer>
+          ))}
         <AddColumn onClick={() => addColumnHandler()}>+</AddColumn>
         <EmptyScreen />
       </ColumnGrid>
