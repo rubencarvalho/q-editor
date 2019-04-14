@@ -47,6 +47,22 @@ const StyledButton = styled.button`
   height: 30px;
 `
 
+const StyledSelect = styled.select`
+  background: #eee;
+  display: flex;
+  align-items: center;
+  align-self: center;
+  justify-self: center;
+  justify-content: center;
+  outline: none;
+  border-radius: 4px;
+  height: 30px;
+`
+const QuestionID = styled.p`
+  font-size: 0.8em;
+  color: #333;
+`
+
 export default class App extends Component {
   state = {
     questions: [],
@@ -58,38 +74,54 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+    this.fetchQuestions()
+  }
+
+  fetchQuestions = () => {
     getAllQuestions().then(res =>
       this.setState({ ...this.state, questions: res.data })
     )
   }
 
+  resetQuestion = () => {
+    this.setState({
+      ...this.state,
+      question: {
+        columns: [],
+        rows: [],
+        title: '',
+      },
+    })
+  }
+
   onQuestionSave = () => {
     if (this.state.question._id) {
       updateQuestion(this.state.question, this.state.question._id).then(res => {
-        console.log('updated!', res)
-        this.setState({ ...this.state, question: res.data })
+        this.setState(
+          { ...this.state, question: res.data },
+          this.fetchQuestions()
+        )
       })
     } else {
-      const defaultTitle = this.state.question.title || 'New question'
-      postQuestion({ ...this.state.question, title: defaultTitle }).then(
-        res => {
-          console.log('Posted!', res)
-          this.setState({ ...this.state, question: res.data })
-        }
-      )
+      postQuestion(this.state.question).then(res => {
+        this.setState(
+          { ...this.state, question: res.data },
+          this.fetchQuestions()
+        )
+      })
     }
   }
 
   onQuestionDelete = () => {
     if (window.confirm('Are you sure you want to delete this question?')) {
       deleteQuestion(this.state.question._id).then(res => {
-        console.log('deleted!', res)
+        this.resetQuestion()
+        this.fetchQuestions()
       })
     } else {
       const defaultTitle = this.state.question.title || 'New question'
       postQuestion({ ...this.state.question, title: defaultTitle }).then(
         res => {
-          console.log('Posted!', res)
           this.setState({ ...this.state, question: res.data })
         }
       )
@@ -97,13 +129,22 @@ export default class App extends Component {
   }
 
   onQuestionSelectChange = e => {
-    console.log(e.target.value)
-    getQuestion(e.target.value).then(res =>
-      this.setState({
-        ...this.state,
-        question: res.data,
-      })
-    )
+    if (e.target.value === 'new') {
+      if (
+        window.confirm(
+          'Are you sure you want to reset the form and create a new question? Any unsaved changes will be lost.'
+        )
+      ) {
+        this.resetQuestion()
+      }
+    } else {
+      getQuestion(e.target.value).then(res =>
+        this.setState({
+          ...this.state,
+          question: res.data,
+        })
+      )
+    }
   }
 
   onTitleChangeHandler = e => {
@@ -272,22 +313,37 @@ export default class App extends Component {
               title={this.state.question.title}
               onChangeHandler={this.onTitleChangeHandler}
             />
+            {this.state.question._id ? (
+              <QuestionID>
+                Question ID: {this.state.question._id.slice(-6)}
+              </QuestionID>
+            ) : null}
             <StyledButton onClick={() => this.onQuestionSave()}>
-              Save question
+              {this.state.question._id
+                ? 'Update changes to database'
+                : 'Save new question to database'}
             </StyledButton>
-            <StyledButton onClick={() => this.onQuestionDelete()}>
-              Delete question
-            </StyledButton>
-            <select
+            {this.state.question._id ? (
+              <StyledButton onClick={() => this.onQuestionDelete()}>
+                Delete question from database
+              </StyledButton>
+            ) : null}
+
+            <StyledSelect
+              value="select"
               onChange={e => this.onQuestionSelectChange(e)}
               name="question"
             >
+              <option value="select" disabled>
+                Select a question...
+              </option>
               {this.state.questions.map(question => (
                 <option key={question._id} value={question._id}>
-                  {question.title}
+                  {`${question.title} (id: ${question._id.slice(-6)})`}
                 </option>
               ))}
-            </select>
+              <option value="new">Reset form and create new question...</option>
+            </StyledSelect>
           </Header>
           <Columns
             questionID={this.state.question_id ? this.state.question_id : null}

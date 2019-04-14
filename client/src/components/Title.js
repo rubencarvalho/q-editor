@@ -23,7 +23,7 @@ export default function Title({ title, onChangeHandler }) {
   return (
     <StyledInput
       name="title"
-      value={title}
+      value={title || ''}
       placeholder="Enter the title of the question"
       onChange={e => onChangeHandler(e)}
     />
