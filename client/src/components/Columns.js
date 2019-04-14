@@ -25,6 +25,15 @@ const ColumnContainer = styled.div`
       transition-delay: 0s;
     }
   }
+  @keyframes show {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  animation: show 0.3s ease-in-out;
 `
 
 const Label = styled.input`

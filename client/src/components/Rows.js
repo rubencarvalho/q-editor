@@ -33,6 +33,15 @@ const Row = styled.div`
       transition-delay: 0s;
     }
   }
+  @keyframes show {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  animation: show 0.3s ease-in-out;
 `
 const Label = styled.input`
   display: block;
@@ -80,6 +89,18 @@ const NoColumnsText = styled.div`
   top: 52px;
   color: grey;
 `
+
+const StyledInput = styled.input`
+  @keyframes show {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  animation: show 0.3s ease-in-out;
+`
 export default class Rows extends Component {
   render() {
     const {
@@ -126,7 +147,7 @@ export default class Rows extends Component {
               </Row>
               <RowGrid length={columns.length}>
                 {this.props.columns.map((col, index) => (
-                  <input
+                  <StyledInput
                     style={{ margin: 'auto' }}
                     key={col.id}
                     checked={row.selected === index}
