@@ -114,14 +114,14 @@ export default class Rows extends Component {
                 <Label
                   value={row.label}
                   onChange={e => onLabelChangeHandler(e, row, 'row')}
-                  placeholder={`row${index}`}
+                  placeholder={`row${index + 1}`}
                 />
               </Row>
               <RowGrid length={columns.length}>
                 {this.props.columns.map((col, index) => (
                   <input
                     style={{ margin: 'auto' }}
-                    key={index}
+                    key={col.id}
                     checked={row.selected === index}
                     type="radio"
                     onChange={() => inputChangeHandler(row, index)}

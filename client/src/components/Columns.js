@@ -111,7 +111,7 @@ export default class Columns extends Component {
               <Label
                 value={column.label}
                 onChange={e => onLabelChangeHandler(e, column, 'column')}
-                placeholder={`col${index}`}
+                placeholder={`col${index + 1}`}
               />
             </ColumnContainer>
           ))}

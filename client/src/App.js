@@ -36,7 +36,7 @@ export default class App extends Component {
       ...this.state,
       columns: [
         ...this.state.columns,
-        { label: `col${length}`, image: '', id: uid() },
+        { label: `col${length + 1}`, image: '', id: uid() },
       ],
     })
   }
@@ -47,7 +47,7 @@ export default class App extends Component {
       ...this.state,
       rows: [
         ...this.state.rows,
-        { label: `row${length}`, image: '', id: uid(), selected: '' },
+        { label: `row${length + 1}`, image: '', id: uid(), selected: '' },
       ],
     })
   }
@@ -73,12 +73,19 @@ export default class App extends Component {
           ...this.state.columns.slice(index + 1),
         ],
       },
-      this.state.rows.forEach(row => {
-        if (row.selected === index) {
-          console.log('should work?', row)
-          this.inputChangeHandler(row, -1)
-        }
-      })
+      () => {
+        this.state.rows.forEach(row => {
+          if (row.selected === index) {
+            row.selected = ''
+          } else if (row.selected > index) {
+            row.selected -= 1
+          }
+        })
+        this.setState({
+          ...this.state,
+          rows: [...this.state.rows],
+        })
+      }
     )
   }
   onLabelChangeHandler = (e, item, columnOrRow) => {
@@ -107,6 +114,9 @@ export default class App extends Component {
 
   inputChangeHandler = (row, selected) => {
     const index = this.state.rows.indexOf(row)
+    console.log('index', index)
+    console.log('selected', selected)
+
     this.setState({
       ...this.state,
       rows: [
