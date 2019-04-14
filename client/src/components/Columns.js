@@ -82,6 +82,7 @@ export default class Columns extends Component {
       deleteColumnHandler,
       onLabelChangeHandler,
       columns,
+      setImage,
     } = this.props
 
     function Loading() {
@@ -107,7 +108,13 @@ export default class Columns extends Component {
               >
                 x
               </DeleteButton>
-              <ImageUpload id={column.id}>+</ImageUpload>
+              <ImageUpload
+                setImage={setImage}
+                id={column.id}
+                columnOrRow={'column'}
+              >
+                +
+              </ImageUpload>
               <Label
                 value={column.label}
                 onChange={e => onLabelChangeHandler(e, column, 'column')}

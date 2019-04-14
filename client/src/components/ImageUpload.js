@@ -20,7 +20,7 @@ export default class ImageUpload extends Component {
   state = {
     imageURL: '',
   }
-  uploadImage(e) {
+  uploadImage(e, id, setImage, columnOrRow) {
     const imageFormObj = new FormData()
 
     imageFormObj.append('image', e.target.files[0])
@@ -29,10 +29,15 @@ export default class ImageUpload extends Component {
       .post(`${API_URL}/question/5ca7f7c47197e315951bec92/upload`, imageFormObj)
       .then(res => {
         if (res.status === 200) {
-          this.setState({
-            imageURL: `${API_URL}/${res.data.result.imageData}`,
-          })
-          console.log('it worked!', this.state)
+          this.setState(
+            {
+              imageURL: `${API_URL}/${res.data.result.imageData}`,
+            },
+            () => {
+              console.log(this.state.imageURL)
+              setImage(id, this.state.imageURL, columnOrRow)
+            }
+          )
         }
       })
       .catch(err => {
@@ -42,7 +47,7 @@ export default class ImageUpload extends Component {
   }
 
   render() {
-    const { id } = this.props
+    const { id, columnOrRow, setImage } = this.props
 
     return (
       <React.Fragment>
@@ -61,7 +66,7 @@ export default class ImageUpload extends Component {
           style={{ display: 'none' }}
           name="image"
           type="file"
-          onChange={e => this.uploadImage(e)}
+          onChange={e => this.uploadImage(e, id, setImage, columnOrRow)}
         />
       </React.Fragment>
     )

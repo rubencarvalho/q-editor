@@ -89,6 +89,7 @@ export default class Rows extends Component {
       inputChangeHandler,
       rows,
       columns,
+      setImage,
     } = this.props
 
     function EmptyScreen() {
@@ -110,7 +111,13 @@ export default class Rows extends Component {
                 >
                   x
                 </DeleteButton>
-                <ImageUpload id={row.id}>+</ImageUpload>
+                <ImageUpload
+                  setImage={setImage}
+                  id={row.id}
+                  columnOrRow={'row'}
+                >
+                  +
+                </ImageUpload>
                 <Label
                   value={row.label}
                   onChange={e => onLabelChangeHandler(e, row, 'row')}
