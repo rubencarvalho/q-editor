@@ -86,7 +86,7 @@ const AddRow = styled.button`
 `
 const NoColumnsText = styled.div`
   position: absolute;
-  top: 52px;
+  top: 92px;
   color: grey;
 `
 

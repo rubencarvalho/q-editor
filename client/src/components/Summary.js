@@ -9,6 +9,8 @@ const SummaryTitle = styled.div`
   margin-top: 100px;
 `
 
+const SummaryContainer = styled.div``
+
 export default function Summary({ rows, columns }) {
   function checkImages() {
     let total = 0
@@ -43,7 +45,7 @@ export default function Summary({ rows, columns }) {
     return longestLabel
   }
   return (
-    <React.Fragment>
+    <SummaryContainer>
       <SummaryTitle>Summary</SummaryTitle>
       <div>
         <p>{`Number of rows: ${rows.length}`}</p>
@@ -52,6 +54,6 @@ export default function Summary({ rows, columns }) {
         <p>{`Longest row label: ${checkLabel('row')}`}</p>
         <p>{`Longest column label: ${checkLabel('column')}`}</p>
       </div>
-    </React.Fragment>
+    </SummaryContainer>
   )
 }
