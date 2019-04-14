@@ -97,16 +97,19 @@ export default class App extends Component {
 
   onQuestionSave = () => {
     if (this.state.question._id) {
-      updateQuestion(this.state.question, this.state.question._id).then(res => {
-        this.setState(
-          { ...this.state, question: res.data },
-          this.fetchQuestions()
-        )
-      })
+      updateQuestion(
+        { ...this.state.question, _id: undefined },
+        this.state.question._id
+      )
+        .then(res => {
+          this.setState({ ...this.state, question: res.data }, () => {
+            this.fetchQuestions()
+          })
+        })
+        .catch(err => console.log(err.response))
     } else {
       postQuestion(this.state.question).then(res => {
-        this.setState(
-          { ...this.state, question: res.data },
+        this.setState({ ...this.state, question: res.data }, () =>
           this.fetchQuestions()
         )
       })
@@ -338,11 +341,14 @@ export default class App extends Component {
               <option value="select" disabled>
                 Select a question...
               </option>
-              {this.state.questions.map(question => (
-                <option key={question._id} value={question._id}>
-                  {`${question.title} (id: ${question._id.slice(-6)})`}
-                </option>
-              ))}
+              {this.state.questions
+                .slice(0)
+                .reverse()
+                .map(question => (
+                  <option key={question._id} value={question._id}>
+                    {`${question.title} (id: ${question._id.slice(-6)})`}
+                  </option>
+                ))}
               <option value="new">Reset form and create new question...</option>
             </StyledSelect>
           </Header>

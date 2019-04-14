@@ -1,6 +1,6 @@
 const Question = require('../models/db.js')
 const updateQuestion = (req, res) => {
-  Question.findOneAndUpdate(req.params.id, req.body, { new: true })
+  Question.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then(question => {
       res.status(200).json(question)
     })
