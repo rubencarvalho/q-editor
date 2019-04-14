@@ -57,6 +57,7 @@ const StyledSelect = styled.select`
   outline: none;
   border-radius: 4px;
   height: 30px;
+  max-width: 300px;
 `
 const QuestionID = styled.p`
   font-size: 0.8em;

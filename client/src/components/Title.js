@@ -22,6 +22,7 @@ const StyledInput = styled.input`
 export default function Title({ title, onChangeHandler }) {
   return (
     <StyledInput
+      maxLength="50"
       name="title"
       value={title || ''}
       placeholder="Enter the title of the question"
