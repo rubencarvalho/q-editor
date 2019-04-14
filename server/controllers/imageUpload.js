@@ -39,10 +39,13 @@ const uploadImage = (req, res) => {
     if (err) console.log('ERROR: ' + err)
   })
   const newImage = new Image({
-    questionID: req.params.id,
-    imageName: req.body.imageName,
+    rowOrColumnID: req.params.id,
     imageData: imageData,
   })
+
+  if (req.body.questionID !== 'null') {
+    newImage.questionID = req.body.questionID
+  }
 
   newImage
     .save()

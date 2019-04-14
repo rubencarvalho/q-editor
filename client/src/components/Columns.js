@@ -92,6 +92,7 @@ export default class Columns extends Component {
       onLabelChangeHandler,
       columns,
       setImage,
+      questionID,
     } = this.props
 
     function Loading() {
@@ -118,6 +119,7 @@ export default class Columns extends Component {
                 x
               </DeleteButton>
               <ImageUpload
+                questionID={questionID}
                 setImage={setImage}
                 id={column.id}
                 columnOrRow={'column'}

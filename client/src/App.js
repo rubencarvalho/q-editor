@@ -5,7 +5,13 @@ import Columns from './components/Columns'
 import Rows from './components/Rows'
 import uid from 'uid'
 import Summary from './components/Summary'
-import { getAllQuestions, postQuestion } from './services'
+import {
+  getAllQuestions,
+  postQuestion,
+  updateQuestion,
+  getQuestion,
+  deleteQuestion,
+} from './services'
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -29,6 +35,18 @@ const Header = styled.header`
   justify-content: space-between;
 `
 
+const StyledButton = styled.button`
+  background: #eee;
+  display: flex;
+  align-items: center;
+  align-self: center;
+  justify-self: center;
+  justify-content: center;
+  outline: none;
+  border-radius: 4px;
+  height: 30px;
+`
+
 export default class App extends Component {
   state = {
     questions: [],
@@ -45,12 +63,54 @@ export default class App extends Component {
     )
   }
 
-  onQuestionSave = () => {}
+  onQuestionSave = () => {
+    if (this.state.question._id) {
+      updateQuestion(this.state.question, this.state.question._id).then(res => {
+        console.log('updated!', res)
+        this.setState({ ...this.state, question: res.data })
+      })
+    } else {
+      const defaultTitle = this.state.question.title || 'New question'
+      postQuestion({ ...this.state.question, title: defaultTitle }).then(
+        res => {
+          console.log('Posted!', res)
+          this.setState({ ...this.state, question: res.data })
+        }
+      )
+    }
+  }
 
-  onQuestionSelectChange = e => {}
+  onQuestionDelete = () => {
+    if (window.confirm('Are you sure you want to delete this question?')) {
+      deleteQuestion(this.state.question._id).then(res => {
+        console.log('deleted!', res)
+      })
+    } else {
+      const defaultTitle = this.state.question.title || 'New question'
+      postQuestion({ ...this.state.question, title: defaultTitle }).then(
+        res => {
+          console.log('Posted!', res)
+          this.setState({ ...this.state, question: res.data })
+        }
+      )
+    }
+  }
+
+  onQuestionSelectChange = e => {
+    console.log(e.target.value)
+    getQuestion(e.target.value).then(res =>
+      this.setState({
+        ...this.state,
+        question: res.data,
+      })
+    )
+  }
 
   onTitleChangeHandler = e => {
-    this.setState({ ...this.state, title: e.target.value })
+    this.setState({
+      ...this.state,
+      question: { ...this.state.question, title: e.target.value },
+    })
   }
 
   addColumnHandler = () => {
@@ -212,18 +272,25 @@ export default class App extends Component {
               title={this.state.question.title}
               onChangeHandler={this.onTitleChangeHandler}
             />
-            <button onChange={() => this.onQuestionSave()}>
+            <StyledButton onClick={() => this.onQuestionSave()}>
               Save question
-            </button>
-            <select name="question">
+            </StyledButton>
+            <StyledButton onClick={() => this.onQuestionDelete()}>
+              Delete question
+            </StyledButton>
+            <select
+              onChange={e => this.onQuestionSelectChange(e)}
+              name="question"
+            >
               {this.state.questions.map(question => (
-                <option key={question._id} value={question.title}>
+                <option key={question._id} value={question._id}>
                   {question.title}
                 </option>
               ))}
             </select>
           </Header>
           <Columns
+            questionID={this.state.question_id ? this.state.question_id : null}
             addColumnHandler={this.addColumnHandler}
             deleteColumnHandler={this.deleteColumnHandler}
             onLabelChangeHandler={this.onLabelChangeHandler}
@@ -231,6 +298,7 @@ export default class App extends Component {
             setImage={this.setImage}
           />
           <Rows
+            questionID={this.state.question_id ? this.state.question_id : null}
             columns={this.state.question.columns}
             addRowHandler={this.addRowHandler}
             deleteRowHandler={this.deleteRowHandler}

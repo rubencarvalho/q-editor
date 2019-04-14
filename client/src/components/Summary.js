@@ -13,13 +13,11 @@ export default function Summary({ rows, columns }) {
   function checkImages() {
     let total = 0
     rows.forEach(row => {
-      console.log(row.image)
       if (row.image !== '') {
         total++
       }
     })
     columns.forEach(column => {
-      console.log(column.image)
       if (column.image !== '') {
         total++
       }

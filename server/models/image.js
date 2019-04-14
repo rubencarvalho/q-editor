@@ -9,8 +9,9 @@ const imageSchema = new Schema({
   questionID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Question',
+    required: false,
   },
-  imageName: {
+  rowOrColumnID: {
     type: String,
     default: 'none',
     required: true,

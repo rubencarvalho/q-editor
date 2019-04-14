@@ -20,13 +20,14 @@ export default class ImageUpload extends Component {
   state = {
     imageURL: '',
   }
-  uploadImage(e, id, setImage, columnOrRow) {
+  uploadImage(e, id, setImage, columnOrRow, questionID) {
     const imageFormObj = new FormData()
 
     imageFormObj.append('image', e.target.files[0])
+    imageFormObj.append('questionID', questionID)
 
     axios
-      .post(`${API_URL}/question/5ca7f7c47197e315951bec92/upload`, imageFormObj)
+      .post(`${API_URL}/question/${id}/upload`, imageFormObj)
       .then(res => {
         if (res.status === 200) {
           this.setState(
@@ -46,7 +47,7 @@ export default class ImageUpload extends Component {
   }
 
   render() {
-    const { id, columnOrRow, setImage } = this.props
+    const { id, columnOrRow, setImage, questionID } = this.props
 
     return (
       <React.Fragment>
@@ -65,7 +66,9 @@ export default class ImageUpload extends Component {
           style={{ display: 'none' }}
           name="image"
           type="file"
-          onChange={e => this.uploadImage(e, id, setImage, columnOrRow)}
+          onChange={e =>
+            this.uploadImage(e, id, setImage, columnOrRow, questionID)
+          }
         />
       </React.Fragment>
     )

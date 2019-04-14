@@ -111,6 +111,7 @@ export default class Rows extends Component {
       rows,
       columns,
       setImage,
+      questionID,
     } = this.props
 
     function EmptyScreen() {
@@ -133,6 +134,7 @@ export default class Rows extends Component {
                   x
                 </DeleteButton>
                 <ImageUpload
+                  questionID={questionID}
                   setImage={setImage}
                   id={row.id}
                   columnOrRow={'row'}
