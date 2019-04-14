@@ -321,7 +321,7 @@ export default class App extends Component {
             <StyledButton onClick={() => this.onQuestionSave()}>
               {this.state.question._id
                 ? 'Update changes to database'
-                : 'Save new question to database'}
+                : 'Save question to database'}
             </StyledButton>
             {this.state.question._id ? (
               <StyledButton onClick={() => this.onQuestionDelete()}>

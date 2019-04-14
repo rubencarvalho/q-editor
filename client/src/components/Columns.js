@@ -119,6 +119,7 @@ export default class Columns extends Component {
                 x
               </DeleteButton>
               <ImageUpload
+                img={column.image}
                 questionID={questionID}
                 setImage={setImage}
                 id={column.id}

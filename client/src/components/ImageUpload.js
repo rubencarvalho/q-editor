@@ -17,9 +17,13 @@ const AddImage = styled.label`
 `
 
 export default class ImageUpload extends Component {
-  state = {
-    imageURL: '',
+  constructor(props) {
+    super(props)
+    this.state = {
+      imageURL: this.props.img || '',
+    }
   }
+
   uploadImage(e, id, setImage, columnOrRow, questionID) {
     const imageFormObj = new FormData()
 

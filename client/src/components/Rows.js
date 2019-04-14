@@ -134,6 +134,7 @@ export default class Rows extends Component {
                   x
                 </DeleteButton>
                 <ImageUpload
+                  img={row.image}
                   questionID={questionID}
                   setImage={setImage}
                   id={row.id}
