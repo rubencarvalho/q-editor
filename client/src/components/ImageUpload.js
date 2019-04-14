@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { API_URL } from '../config'
+import { API_URL } from '../services'
 import styled from 'styled-components'
 
 const AddImage = styled.label`
@@ -34,7 +34,6 @@ export default class ImageUpload extends Component {
               imageURL: `${API_URL}/${res.data.result.imageData}`,
             },
             () => {
-              console.log(this.state.imageURL)
               setImage(id, this.state.imageURL, columnOrRow)
             }
           )
