@@ -1,6 +1,4 @@
-## Coding Challenge
-
-Question Editor for a Radio Button Matrix
+## Question Editor for a Radio Button Matrix
 
 1. Clone the repository
 
